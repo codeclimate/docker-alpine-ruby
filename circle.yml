@@ -1,7 +1,16 @@
 machine:
   services:
     - docker
+  environment:
+    registry_root: gcr.io/neon-nexus-95005
+    image_name: alpine-ruby
 
 test:
   override:
-    - docker build -t=codeclimate/alpine-ruby .
+    - docker build -t=$registry_root/$image_name:b$CIRCLE_BUILD_NUM .
+
+deployment:
+  registry:
+    branch: master
+    commands:
+      - docker push $registry_root/$image_name:b$CIRCLE_BUILD_NUM
