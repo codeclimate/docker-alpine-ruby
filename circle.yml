@@ -2,16 +2,19 @@ machine:
   services:
     - docker
   environment:
-    registry_root: gcr.io/neon_nexus_95005
+    gcloud_project: neon_nexus_95005
+    registry_root: gcr.io
     image_name: alpine-ruby
 
 test:
   override:
-    - docker build -t=$registry_root/$image_name:b$CIRCLE_BUILD_NUM .
+    - docker build -t=$registry_root/$gcloud_project/$image_name:b$CIRCLE_BUILD_NUM .
 
 deployment:
   registry:
     branch: master
     commands:
-      - echo $registry_root/$image_name:b$CIRCLE_BUILD_NUM
-      - docker push $registry_root/$image_name:b$CIRCLE_BUILD_NUM
+      - echo $registry_root/$gcloud_project/$image_name:b$CIRCLE_BUILD_NUM
+      - echo notasecret > /tmp/gcloud_key_password
+      - gcloud auth activate-service-account --key-file FOO --password-file /tmp/gcloud_key_password --project $gcloud_project
+      - docker push $registry_root/$gcloud_project/$image_name:b$CIRCLE_BUILD_NUM
