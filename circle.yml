@@ -7,7 +7,8 @@ dependencies:
     - echo $gcloud_json_key_base64 | openssl enc -base64 -d > /tmp/gcloud_key.json
     - docker pull google/cloud-sdk
     - docker run --name gcloud-config -v /tmp/gcloud_key.json:/tmp/gcloud_key.json google/cloud-sdk gcloud auth activate-service-account $gcloud_account_email --key-file /tmp/gcloud_key.json
-    - docker run --volumes-from gcloud-config google/cloud-sdk gcloud auth list
+    - docker run --name gcloud-dockercfg --volumes-from gcloud-config google/cloud-sdk gcloud preview docker -a
+    - docker cp gcloud-dockercfg:/.dockercfg /
 
 test:
   override:
