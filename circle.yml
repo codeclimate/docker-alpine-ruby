@@ -1,11 +1,14 @@
 machine:
   services:
     - docker
+  python:
+    version: 2.7.5
   environment:
     CLOUDSDK_CORE_DISABLE_PROMPTS: 1
 
 dependencies:
   pre:
+    - pip install ndg-httpsclient pyasn1 pyopenssl
     - curl https://sdk.cloud.google.com | bash
     - echo notasecret > /tmp/gcloud_key_password
     - echo $gcloud_p12_key_base64 | openssl enc -base64 -d > /tmp/gcloud_p12_key
