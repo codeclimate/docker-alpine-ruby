@@ -1,0 +1,15 @@
+FROM google/cloud-sdk
+
+RUN gcloud components update
+
+RUN apt-get update -y && \
+    apt-get install --no-install-recommends -y \
+      build-essential \
+      curl \
+      git \
+      openssh-client \
+      python-dev \
+      python-pip
+
+RUN pip install setuptools --upgrade
+RUN pip install ndg-httpsclient pyasn1 pyopenssl --upgrade

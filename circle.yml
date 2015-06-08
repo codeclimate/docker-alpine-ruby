@@ -8,12 +8,12 @@ machine:
 
 dependencies:
   pre:
-    - pip install ndg-httpsclient pyasn1 pyopenssl
-    - curl https://sdk.cloud.google.com | bash
-    - echo notasecret > /tmp/gcloud_key_password
-    - echo $gcloud_p12_key_base64 | openssl enc -base64 -d > /tmp/gcloud_p12_key
-    - gcloud auth activate-service-account $gcloud_account_email --key-file /tmp/gcloud_p12_key --password-file /tmp/gcloud_key_password --project $gcloud_project
-    - gcloud auth list
+    - mkdir -p /tmp/gcloud_keys
+    - echo notasecret > /tmp/gcloud_keys/password
+    - echo $gcloud_p12_key_base64 | openssl enc -base64 -d > /tmp/gcloud_keys/p12_key
+    - docker pull google/cloud-sdk
+    - docker run --name gcloud-config -v /tmp/gcloud_keys:/tmp/gcloud_keys google/cloud-sdk gcloud auth activate-service-account $gcloud_account_email --key-file /tmp/gcloud_keys/p12_key --password-file /tmp/gcloud_keys/password --project $gcloud_project
+    - docker run --volumes-from gcloud-config google/cloud-sdk gcloud auth list
 
 test:
   override:
