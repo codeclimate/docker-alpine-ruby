@@ -1,10 +1,6 @@
 machine:
   services:
     - docker
-  python:
-    version: 2.7.5
-  environment:
-    CLOUDSDK_CORE_DISABLE_PROMPTS: 1
 
 dependencies:
   pre:
