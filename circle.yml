@@ -2,7 +2,6 @@ machine:
   services:
     - docker
   environment:
-    gcloud_project: neon_nexus_95005
     registry_root: gcr.io
     image_name: alpine-ruby
     CLOUDSDK_CORE_DISABLE_PROMPTS: 1
