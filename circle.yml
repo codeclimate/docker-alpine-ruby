@@ -13,4 +13,5 @@ deployment:
   registry:
     branch: master
     commands:
+      - echo $registry_root/$image_name:b$CIRCLE_BUILD_NUM
       - docker push $registry_root/$image_name:b$CIRCLE_BUILD_NUM
