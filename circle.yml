@@ -5,6 +5,14 @@ machine:
     gcloud_project: neon_nexus_95005
     registry_root: gcr.io
     image_name: alpine-ruby
+    CLOUDSDK_CORE_DISABLE_PROMPTS: 1
+
+dependencies:
+  pre:
+    - curl https://sdk.cloud.google.com | bash
+    - echo notasecret > /tmp/gcloud_key_password
+    - gcloud auth activate-service-account --key-file FOO --password-file /tmp/gcloud_key_password --project $gcloud_project
+    - gcloud auth list
 
 test:
   override:
@@ -15,6 +23,4 @@ deployment:
     branch: master
     commands:
       - echo $registry_root/$gcloud_project/$image_name:b$CIRCLE_BUILD_NUM
-      - echo notasecret > /tmp/gcloud_key_password
-      - gcloud auth activate-service-account --key-file FOO --password-file /tmp/gcloud_key_password --project $gcloud_project
       - docker push $registry_root/$gcloud_project/$image_name:b$CIRCLE_BUILD_NUM
