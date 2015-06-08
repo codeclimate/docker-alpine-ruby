@@ -2,7 +2,7 @@ machine:
   services:
     - docker
   environment:
-    registry_root: gcr.io/neon-nexus-95005
+    registry_root: gcr.io/neon_nexus_95005
     image_name: alpine-ruby
 
 test:
