@@ -1,6 +1,8 @@
 machine:
   services:
     - docker
+  environment:
+    CLOUDSDK_CORE_DISABLE_PROMPTS: 1
 
 dependencies:
   pre:
