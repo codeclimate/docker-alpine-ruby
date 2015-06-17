@@ -14,11 +14,9 @@ dependencies:
 test:
   override:
     - docker build -t=$registry_root/$image_name:b$CIRCLE_BUILD_NUM .
-    - tag=$(git describe --exact-match) && docker build -t=$registry_root/$image_name:$tag . || true
 
 deployment:
   registry:
     branch: master
     commands:
       - docker push $registry_root/$image_name:b$CIRCLE_BUILD_NUM
-      - tag=$(git describe --exact-match) && docker push $registry_root/$image_name:$tag || true
