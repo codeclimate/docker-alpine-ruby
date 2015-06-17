@@ -21,3 +21,4 @@ deployment:
     branch: master
     commands:
       - docker push $registry_root/$image_name:b$CIRCLE_BUILD_NUM
+      - tag=$(git describe --exact-match 2>/dev/null) && docker push $registry_root/$image_name:$tag || true
